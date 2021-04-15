@@ -1,0 +1,16 @@
+.campoEndereco {
+    padding: 10px;
+    display: inline;
+    display: flex;
+    flex-direction: column;    
+    width:50%;
+    margin: auto;
+}
+
+.encapsuladorCampoTexto {
+   margin-top: 2em;   
+}
+
+.campoTexto{
+    width:100%
+}
