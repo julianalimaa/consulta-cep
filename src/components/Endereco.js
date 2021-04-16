@@ -1,24 +1,6 @@
-import { TextField } from "@material-ui/core"
 import './Endereco.css'
 import { useState } from 'react'
-
-const CampoTextoCustomizado = ({valor, label, mensagemErro, manipuladorOnChange, manipuladorOnBlur}) => {
-
-    return (
-        <div className="encapsuladorCampoTexto">
-            <TextField 
-                value={valor}
-                onBlur={manipuladorOnBlur}
-                onChange={(event)=> 
-                    manipuladorOnChange(event.target.value)} 
-                label={label} 
-                variant="filled" 
-                className="campoTexto"
-                error={mensagemErro}
-                />
-        </div> 
-    )
-}
+import CampoTextoCustomizado from './CampoTextoCustomizado'
 
 const Endereco = () => {    
     const [mensagemErrorCep, setMensagemErrorCep] = useState('')
@@ -29,7 +11,7 @@ const Endereco = () => {
     const [localidade, setLocalidade] = useState('')
     const [uf, setUf] = useState('')
 
-    const manipularOnBlurCep = async () => {
+    const manipularOnBlurCep = async (ev) => {
        
         try {
             const urlApi = `https://viacep.com.br/ws/${cep}/json/`
@@ -45,15 +27,21 @@ const Endereco = () => {
             setBairro(json.bairro)
             setLocalidade(json.localidade)
             setUf(json.uf)
+            setMensagemErrorCep('')
 
         } catch (error) {
-            alert('Cep inexistente/inválido!')
+            setMensagemErrorCep('Cep inexistente / inválido')
+            setLogradouro('')
+            setComplemento('')
+            setBairro('')
+            setLocalidade('')
+            setUf('')
         }
     }
 
     return (  
         <div className="campoEndereco">
-           <CampoTextoCustomizado mensagemErro={mensagemErrorCep} manipuladorOnChange={setCep} manipuladorOnBlur={manipularOnBlurCep} label="CEP"/> 
+           <CampoTextoCustomizado error mensagemErro={mensagemErrorCep} manipuladorOnChange={setCep} manipuladorOnBlur={manipularOnBlurCep} label="CEP"/> 
            <CampoTextoCustomizado valor={logradouro} label="Logradouro"/> 
            <CampoTextoCustomizado valor={complemento} label="Complemento"/> 
            <CampoTextoCustomizado valor={bairro} label="Bairro"/> 
